@@ -1,48 +1,54 @@
-
-
 <template>
-    <div class="container">
-
-
-        <div id="login-form" v-if="!loggedIn">
-            <form @submit.prevent="login">
-                <h1>Authentification</h1>
-                <p>Remplissez ce formulaire pour vous connecter.</p>
-                <hr />
-                <label for="email"><b>Email</b></label>
-                <input type="text" v-model="email" placeholder="Entrez votre courriel" id="email" name="email" required />
-                <label for="psw"><b>Mot de passe</b></label>
-                <input type="password" v-model="password" placeholder="Entrez votre mot de passe" id="psw" name="psw"
-                    required />
-                <p><button type="submit">Se connecter</button></p>
-                <p v-if="loginError" class="error-message">Identifiants incorrects. Veuillez réessayer.</p>
-                <p v-if="loggedIn" class="success-message">Vous êtes connecté avec succès.</p>
-            </form>
-
-
-
+    <div id="search-film">
+        <form @submit.prevent="searchFilm">
+            <label for="search">Rechercher :</label>
+            <input id="search" type="text" v-model.lazy="searchTerm">
+            <button type="submit">Rechercher</button>
+        </form>
+        <div class="table-films">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Affiche</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(film, index) in filteredFilms" :key="index">
+                        <td>
+                            <img :src="film.poster" alt="affiche du film">
+                        </td>
+                        <td>
+                            <li>Titre : {{ film.title }}</li>
+                            <li>Sortie : {{ film.released }}</li>
+                            <li>Réalisateur : {{ film.director }}</li>
+                            <li>Acteurs : {{ film.actors }}</li>
+                            <li>Plot : {{ film.plot }}</li>
+                            <li>Metascore : {{ film.metascore | formatMetascore }}/5</li>
+                            <li>
+                                <p>Etoiles: <span v-html="generateStars(film.metascore)"></span></p>
+                            </li>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-
     </div>
 </template>
 
-
-
 <script>
-import Vue from 'vue';
-Vue.filter('formatMetascore', function (value) {
-    value = parseFloat(value);
-    value = Math.min(Math.max(0, value), 100);
-    return Math.round(value / 20);
-});
 export default {
+    name: 'SearchFilm',
+    /**
+     * Initialization logic here
+     */
+    mounted() {
+        this.filteredFilms - this.films
+    }
+    ,
+
     data() {
         return {
-            email: '',
-            password: '',
-            loginError: false,
-            loggedIn: false,
             films: [
                 {
                     title: 'Titanic',
@@ -71,24 +77,16 @@ export default {
                     plot: 'A family heads to an isolated hotel for the winter where an evil spiritual presence influences the father into violence, while his psychic son sees horrific forebodings from both past and future.',
                     metascore: '63'
                 }
-            ]
+            ],
+            searchTerm: '',
+            filteredFilms: []
+
         };
     },
     methods: {
-        login() {
-            // Login OK :)
-            if (this.email === 'admin' && this.password === 'admin') {
-                this.loggedIn = true;
-                this.loginError = false;
-            } else {
-                // Login KO :(
-                this.loggedIn = false;
-                this.loginError = true;
-            }
-            this.$emit('authenticated', this.loggedIn);
-        },
-
-        // display Stars 
+        /**
+         * Génère les étoiles en fonction du score
+         */
         generateStars(score) {
             const numberOfStars = this.$options.filters.formatMetascore(score);
             let stars = '';
@@ -100,28 +98,26 @@ export default {
                 }
             }
             return stars;
+        },
+        /**
+         * Cherche un film dans la liste des films
+         */
+        searchFilm() {
+            if (this.searchTerm.trim()) {
+                this.filteredFilms = this.films.filter(film => {
+                    return film.title.toLowerCase().includes(this.searchTerm.toLowerCase());
+                });
+            } else {
+                this.filteredFilms = this.films;
+            }
         }
 
     }
 
+
 }
-
-
 </script>
 
-
-<style scoped> @import '../../assets/base.css';
-
- .container {
-     display: flex;
-     flex-direction: column;
-     flex-wrap: wrap;
-     justify-content: space-around;
-     align-items: center;
-     align-content: center;
-     margin: 0 auto;
-     width: 100%;
-     max-width: 1200px;
-     padding: 0 15px;
- }
+<style scoped>
+/* Your component styles here */
 </style>
