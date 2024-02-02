@@ -46,6 +46,7 @@ export default {
         login() {
             if (this.email === 'admin' && this.password === 'admin') {
                 this.$store.commit('setLoggedIn', true);
+                this.$router.push({ name: 'search' }); // 'search' est le nom de votre route de recherche définie dans votre fichier de configuration du router
                 this.loginError = false;
             } else {
                 this.$store.commit('setLoggedIn', false);

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/a4u.png">
+    <button @click="logout" v-if="isLoggedIn">Logout</button>
     <!-- Afficher le composant LoginStarWars si l'utilisateur n'est pas authentifié -->
     <LoginStarWars v-if="!isLoggedIn"></LoginStarWars>
     <!-- Afficher le composant SearchFilm si l'utilisateur est authentifié -->
@@ -25,12 +26,11 @@ export default {
     }
   },
   methods: {
-    // Méthode appelée lorsque l'état de connexion change dans le composant LoginStarWars
-    showNotification(authenticated) {
-      console.log('authenticated', authenticated);
-      // Mettre à jour la propriété isAuthenticated en fonction de l'état de connexion
-      this.isAuthenticated = authenticated;
+    logout() {
+      this.$store.commit('setLoggedIn', false);
+      this.$router.push({ name: 'login' });
     }
+
   }
 }
 </script>
