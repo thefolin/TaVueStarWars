@@ -1,18 +1,23 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <LoginStarWars></LoginStarWars>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import LoginStarWars from '../components/login/LoginStarWars.vue';
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+    LoginStarWars
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.getLoggedIn;
+    }
   }
 }
 </script>

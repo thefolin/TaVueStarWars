@@ -1,24 +1,20 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/a4u.png">
-    <button @click="logout" v-if="isLoggedIn">Logout</button>
-    <!-- Afficher le composant LoginStarWars si l'utilisateur n'est pas authentifié -->
-    <LoginStarWars v-if="!isLoggedIn"></LoginStarWars>
-    <!-- Afficher le composant SearchFilm si l'utilisateur est authentifié -->
-    <SearchFilm v-if="isLoggedIn"></SearchFilm>
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+      <router-link to="/store">Store</router-link>
+    </nav>
+    <router-view />
   </div>
 </template>
 
 <script>
 
-import LoginStarWars from './components/login/LoginStarWars.vue';
-import SearchFilm from './components/searchFilm/SearchFilm.vue';
 
 export default {
   name: 'App',
   components: {
-    LoginStarWars,
-    SearchFilm
   },
   computed: {
     isLoggedIn() {

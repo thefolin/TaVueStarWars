@@ -5,6 +5,9 @@
             <input id="search" type="text" v-model.lazy="searchTerm">
             <button type="submit">Rechercher</button>
         </form>
+        <ul>
+            <li v-for="user in users" :key="user.id">{{ user.name }}</li>
+        </ul>
         <div class="table-films">
             <table>
                 <thead>
@@ -37,6 +40,9 @@
 </template>
 
 <script>
+// import apiService from '../../services/apiService';
+import YoloService from '../../Yolo';
+
 export default {
     name: 'SearchFilm',
     /**
@@ -45,13 +51,17 @@ export default {
     mounted() {
         this.$store.dispatch('fetchFilms');
         this.searchFilm();
+        // this.fetchUsers();
+        // this.yoloService = new YoloService();
+        YoloService.yolo();
     }
     ,
 
     data() {
         return {
             searchTerm: '',
-            filteredFilms: []
+            filteredFilms: [],
+            users: []
 
         };
     },
@@ -62,6 +72,17 @@ export default {
         }
     },
     methods: {
+
+        // fetchUsers() {
+        //     apiService.getUsers(1)
+        //         .then(response => {
+        //             console.log('Users:', response);
+        //             //this.users = response.data;
+        //         })
+        //         .catch(error => {
+        //             console.error('Error fetching users:', error);
+        //         });
+        // },
         /**
          * Génère les étoiles en fonction du score
          */
