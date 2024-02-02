@@ -16,7 +16,7 @@ export default new Vuex.Store({
       return state.films;
     },
     getLoggedIn(state) {
-      return state.films;
+      return state.loggedIn;
     }
   },
   //ADD DATA TO THE STATE

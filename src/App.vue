@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/a4u.png">
-    <LoginStarWars v-if="!isAuthenticated" @authenticated="showNotification"></LoginStarWars>
-    <SearchFilm v-if="isAuthenticated"></SearchFilm>
+    <!-- Afficher le composant LoginStarWars si l'utilisateur n'est pas authentifié -->
+    <LoginStarWars v-if="!isLoggedIn"></LoginStarWars>
+    <!-- Afficher le composant SearchFilm si l'utilisateur est authentifié -->
+    <SearchFilm v-if="isLoggedIn"></SearchFilm>
   </div>
 </template>
 
@@ -10,29 +12,24 @@
 
 import LoginStarWars from './components/login/LoginStarWars.vue';
 import SearchFilm from './components/searchFilm/SearchFilm.vue';
+
 export default {
   name: 'App',
   components: {
     LoginStarWars,
     SearchFilm
   },
-  data() {
-    return {
-      isAuthenticated: false,
-    };
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.getLoggedIn;
+    }
   },
-
   methods: {
+    // Méthode appelée lorsque l'état de connexion change dans le composant LoginStarWars
     showNotification(authenticated) {
       console.log('authenticated', authenticated);
+      // Mettre à jour la propriété isAuthenticated en fonction de l'état de connexion
       this.isAuthenticated = authenticated;
-      if (authenticated) {
-        this.notification = true;
-        this.notificationMessage = 'Authentification réussie!';
-      } else {
-        this.notification = true;
-        this.notificationMessage = 'Identifiants incorrects. Veuillez réessayer.';
-      }
     }
   }
 }
