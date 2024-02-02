@@ -44,6 +44,7 @@ export default {
      */
     mounted() {
         this.$store.dispatch('fetchFilms');
+        this.searchFilm();
     }
     ,
 

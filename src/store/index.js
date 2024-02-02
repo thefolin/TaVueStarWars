@@ -7,11 +7,15 @@ export default new Vuex.Store({
   //INIT DATA TO THE STATE
   state: {
     //états de l'application
-    films: []
+    films: [],
+    loggedIn: false,
   },
   //GET DATA TO THE STATE
   getters: {
     getFilms(state) {
+      return state.films;
+    },
+    getLoggedIn(state) {
       return state.films;
     }
   },
@@ -20,8 +24,13 @@ export default new Vuex.Store({
     // modifier l'état de l'application
     setFilms(state, films) {
       state.films = films;
+    },
+    setLoggedIn(state, loggedIn) {
+      state.loggedIn = loggedIn;
     }
   },
+
+
   // SEND DATA
   actions: {
     // opérations asynchrones 
