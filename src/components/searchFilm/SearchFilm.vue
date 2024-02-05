@@ -53,7 +53,7 @@ export default {
         this.searchFilm();
         // this.fetchUsers();
         // this.yoloService = new YoloService();
-        YoloService.yolo();
+        YoloService().yolo();
     }
     ,
 

@@ -10,7 +10,7 @@
 import SearchFilm from '../components/searchFilm/SearchFilm.vue';
 
 export default {
-  name: 'HomeView',
+  name: 'View',
   components: {
     SearchFilm
   }
